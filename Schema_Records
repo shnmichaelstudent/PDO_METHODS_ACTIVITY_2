@@ -1,0 +1,78 @@
+
+CREATE TABLE Patients (
+    PatientID INT PRIMARY KEY AUTO_INCREMENT,
+    Name VARCHAR(100),
+    Age INT,
+    Gender VARCHAR(10),
+    ContactInfo VARCHAR(255)
+);
+
+
+CREATE TABLE Doctors (
+    DoctorID INT PRIMARY KEY AUTO_INCREMENT,
+    Name VARCHAR(100),
+    Specialization VARCHAR(100),
+    ContactInfo VARCHAR(255)
+);
+
+
+CREATE TABLE Appointments (
+    AppointmentID INT PRIMARY KEY AUTO_INCREMENT,
+    PatientID INT,
+    DoctorID INT,
+    AppointmentDate DATE,
+    AppointmentTime TIME,
+    FOREIGN KEY (PatientID) REFERENCES Patients(PatientID),
+    FOREIGN KEY (DoctorID) REFERENCES Doctors(DoctorID)
+);
+
+
+CREATE TABLE Treatments (
+    TreatmentID INT PRIMARY KEY AUTO_INCREMENT,
+    PatientID INT,
+    DoctorID INT,
+    TreatmentDescription TEXT,
+    TreatmentDate DATE,
+    FOREIGN KEY (PatientID) REFERENCES Patients(PatientID),
+    FOREIGN KEY (DoctorID) REFERENCES Doctors(DoctorID)
+);
+
+
+CREATE TABLE Medications (
+    MedicationID INT PRIMARY KEY AUTO_INCREMENT,
+    TreatmentID INT,
+    MedicationName VARCHAR(100),
+    Dosage VARCHAR(50),
+    Duration VARCHAR(50),
+    FOREIGN KEY (TreatmentID) REFERENCES Treatments(TreatmentID)
+);
+
+
+INSERT INTO Patients (Name, Age, Gender, ContactInfo) VALUES
+('John Doe', 45, 'Male', '123-456-7890'),
+('Jane Smith', 30, 'Female', '234-567-8901'),
+('Mike Johnson', 60, 'Male', '345-678-9012');
+
+
+INSERT INTO Doctors (Name, Specialization, ContactInfo) VALUES
+('Dr. Alice Brown', 'Cardiology', '456-789-0123'),
+('Dr. Bob White', 'Dermatology', '567-890-1234'),
+('Dr. Carol Green', 'Neurology', '678-901-2345');
+
+
+INSERT INTO Appointments (PatientID, DoctorID, AppointmentDate, AppointmentTime) VALUES
+(1, 1, '2024-09-11', '09:00:00'),
+(2, 2, '2024-09-12', '10:00:00'),
+(3, 3, '2024-09-13', '11:00:00');
+
+
+INSERT INTO Treatments (PatientID, DoctorID, TreatmentDescription, TreatmentDate) VALUES
+(1, 1, 'Heart check-up and ECG', '2024-09-11'),
+(2, 2, 'Skin allergy treatment', '2024-09-12'),
+(3, 3, 'Neurological examination', '2024-09-13');
+
+
+INSERT INTO Medications (TreatmentID, MedicationName, Dosage, Duration) VALUES
+(1, 'Aspirin', '100mg', '7 days'),
+(2, 'Antihistamine', '50mg', '10 days'),
+(3, 'Gabapentin', '300mg', '14 days');
